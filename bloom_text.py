@@ -386,18 +386,18 @@ glEnd()
 glEndList()
 
 class bloomText:
-	def __init__(self, string):
-		self.string = string
-		self.position = (0, 0)
-		
-	def draw(self):
-		glPushMatrix()
-		
-		glTranslatef(self.position[0], self.position[1], 0.0)
-		glColor4f(1.0, 1.0, 1.0, 1.0)
-		
-		for character in self.string:
-			glCallList(textLists + ord(character) - 32) # 32 is Space
-			glTranslatef(2.0, 0.0, 0.0)
-		
-		glPopMatrix()
+    def __init__(self, string):
+        self.string = string
+        self.position = (0, 0)
+
+    def draw(self):
+        glPushMatrix()
+
+        glTranslatef(self.position[0], self.position[1], 0.0)
+        glColor4f(1.0, 1.0, 1.0, 1.0)
+
+        for character in self.string:
+            glCallList(textLists + ord(character) - 32) # 32 is Space
+            glTranslatef(2.0, 0.0, 0.0)
+
+        glPopMatrix()

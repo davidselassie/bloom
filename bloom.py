@@ -42,11 +42,11 @@ lastTime = 0
 score = 0
 hiScore = 0
 try:
-	scoreFile = file("settings.pickle")
-	hiScore = pickle.load(scoreFile)
-	scoreFile.close()
+    scoreFile = file("settings.pickle")
+    hiScore = pickle.load(scoreFile)
+    scoreFile.close()
 except IOError:
-	pass
+    pass
 
 scoreText = bloomText("SCORE: 0")
 scoreText.position = (2, 2)
@@ -55,81 +55,81 @@ hiScoreText.position = (50, 2)
 fpsText = bloomText("FPS: 0")
 fpsText.position = (2, 98)
 while not engine.checkBind("quit"):
-#	pygame.time.wait(80)
-	engine.update()
-	fpsText.string = "FPS: " + str(int(engine.fps()))
+#    pygame.time.wait(80)
+    engine.update()
+    fpsText.string = "FPS: " + str(int(engine.fps()))
 
-	if not playerShip.dead() and not engine.time // 1000 == lastTime:
-#	if engine.checkBind("spawn"):
-		lastTime = engine.time // 1000
-		newEnemy = bloomAIShip(bloomVector(random.randint(5, bloom_engine.space[0] - 5), random.randint(25, bloom_engine.space[1] - 5)), 2, 0, playerShip)
-		newEnemy.fire_speed = 1500
-		level.ships.append(newEnemy)
-		score += 1
-		scoreText.string = "SCORE: " + str(score)
+    if not playerShip.dead() and not engine.time // 1000 == lastTime:
+#    if engine.checkBind("spawn"):
+        lastTime = engine.time // 1000
+        newEnemy = bloomAIShip(bloomVector(random.randint(5, bloom_engine.space[0] - 5), random.randint(25, bloom_engine.space[1] - 5)), 2, 0, playerShip)
+        newEnemy.fire_speed = 1500
+        level.ships.append(newEnemy)
+        score += 1
+        scoreText.string = "SCORE: " + str(score)
 
-		if score > hiScore:
-			hiScore = score
-			hiScoreText.string = "HI: " + str(hiScore)
+        if score > hiScore:
+            hiScore = score
+            hiScoreText.string = "HI: " + str(hiScore)
 
-		print "level.ships" + str(len(level.ships))
-		print "level.bullets" + str(len(level.bullets))
-		print "level.explosions" + str(len(level.explosions))
+        print("level.ships" + str(len(level.ships)))
+        print("level.bullets" + str(len(level.bullets)))
+        print("level.explosions" + str(len(level.explosions)))
 
-	if engine.checkBind("restart"):
-		score = 0
-		scoreText.string = "SCORE: 0"
-		level.__init__()
-		playerShip = bloomShip(bloomVector(50, 25), 1, 1)
-		playerShip.color = [0.0, 1.0, 0.0, 1.0]
-		playerShip.total_health = 1
-		playerShip.health = 1
-		level.ships.append(playerShip)
+    if engine.checkBind("restart"):
+        score = 0
+        scoreText.string = "SCORE: 0"
+        level.__init__()
+        playerShip = bloomShip(bloomVector(50, 25), 1, 1)
+        playerShip.color = [0.0, 1.0, 0.0, 1.0]
+        playerShip.total_health = 1
+        playerShip.health = 1
+        level.ships.append(playerShip)
 
-	if not playerShip.dead():
-		if engine.checkBind("left"):
-			playerShip.move([-playerShip.speed * engine.dt, 0])
-		if engine.checkBind("right"):
-			playerShip.move([playerShip.speed * engine.dt, 0])
-		if engine.checkBind("up"):
-			playerShip.move([0, playerShip.speed * engine.dt])
-		if engine.checkBind("down"):
-			playerShip.move([0, -playerShip.speed * engine.dt])
+    if not playerShip.dead():
+        if engine.checkBind("left"):
+            playerShip.move([-playerShip.speed * engine.dt, 0])
+        if engine.checkBind("right"):
+            playerShip.move([playerShip.speed * engine.dt, 0])
+        if engine.checkBind("up"):
+            playerShip.move([0, playerShip.speed * engine.dt])
+        if engine.checkBind("down"):
+            playerShip.move([0, -playerShip.speed * engine.dt])
 
-		if playerShip.offScreen():
-			playerShip.fitScreen()
+        if playerShip.offScreen():
+            playerShip.fitScreen()
 
-		if not engine.checkBind("swap"):
-			playerShip.fire_speed = 25
-			playerShip.speed = 0.06
-			playerShip.color = [0.0, 1.0, 0.0, 1.0]
-		else:
-			playerShip.fire_speed = 0
-			playerShip.speed = 0.01
-			playerShip.color = [1.0, 1.0, 0.0, 1.0]
+        if not engine.checkBind("swap"):
+            playerShip.fire_speed = 25
+            playerShip.speed = 0.06
+            playerShip.color = [0.0, 1.0, 0.0, 1.0]
+        else:
+            playerShip.fire_speed = 0
+            playerShip.speed = 0.01
+            playerShip.color = [1.0, 1.0, 0.0, 1.0]
 
-		if engine.checkBind("fire"):
-			level.bullets += playerShip.fire()
+        if engine.checkBind("fire"):
+            level.bullets += playerShip.fire()
 
-	level.update(engine.dt)
+    level.update(engine.dt)
 
 # Begin Drawing
-	level.drawBloom()
+    level.drawBloom()
 
-	engine.startDraw()
+    engine.startDraw()
 
-	level.draw()
+    level.draw()
 
-	scoreText.draw()
-	fpsText.draw()
-	hiScoreText.draw()
+    scoreText.draw()
+    fpsText.draw()
+    hiScoreText.draw()
 
-	engine.endDraw()
+    engine.endDraw()
 # End Drawing
 
 try:
-	scoreFile = file("settings.pickle", "w")
-	pickle.dump(hiScore, scoreFile)
-	scoreFile.close()
+    scoreFile = file("settings.pickle", "w")
+    pickle.dump(hiScore, scoreFile)
+    scoreFile.close()
 except IOError:
-	pass
+    pass
